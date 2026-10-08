@@ -1,0 +1,798 @@
+/* ==========================================================================
+   PIXEL ART PORTFOLIO - STYLESHEET
+   Software Engineer: Mohan Kumar H S Manu
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. CSS VARIABLES & COLOR PALETTES
+   -------------------------------------------------------------------------- */
+:root {
+    /* DEFAULT: Retro Arcade Light Theme */
+    --theme-name: "light";
+    --bg-page: #f0f0e6;
+    --bg-card: #ffffff;
+    --bg-card-alt: #f8f8f2;
+    --bg-overlay: rgba(240, 240, 230, 0.88);
+    --bg-scanline: rgba(0, 0, 0, 0.04);
+    
+    --text-primary: #12121e;
+    --text-secondary: #3b3b4f;
+    --text-muted: #64647a;
+    --text-accent: #d90429;
+    
+    --border-color: #12121e;
+    --border-highlight: #ffffff;
+    --shadow-color: #7b7b8f;
+    --shadow-accent: #d90429;
+
+    --color-primary: #d90429;
+    --color-primary-hover: #ef233c;
+    --color-secondary: #0077b6;
+    --color-secondary-hover: #0096c7;
+    --color-green: #2a9d8f;
+    --color-gold: #f4a261;
+
+    --pixel-unit: 4px;
+    --font-pixel-heading: 'Press Start 2P', monospace, sans-serif;
+    --font-pixel-body: 'VT323', monospace, 'Courier New', monospace;
+}
+
+/* --------------------------------------------------------------------------
+   2. SYSTEM DEFAULT BROWSER THEME DETECTION (CSS Media Query)
+   -------------------------------------------------------------------------- */
+@media (prefers-color-scheme: dark) {
+    :root {
+        /* Retro Cyberpunk / 8-Bit Dark Arcade Theme */
+        --theme-name: "dark";
+        --bg-page: #0a0a14;
+        --bg-card: #131224;
+        --bg-card-alt: #1b1a32;
+        --bg-overlay: rgba(10, 10, 20, 0.88);
+        --bg-scanline: rgba(0, 0, 0, 0.35);
+
+        --text-primary: #38ef7d;
+        --text-secondary: #00f2fe;
+        --text-muted: #7987a5;
+        --text-accent: #ff007f;
+
+        --border-color: #38ef7d;
+        --border-highlight: #ff007f;
+        --shadow-color: #00f2fe;
+        --shadow-accent: #ff007f;
+
+        --color-primary: #ff007f;
+        --color-primary-hover: #ff3399;
+        --color-secondary: #00f2fe;
+        --color-secondary-hover: #4facfe;
+        --color-green: #38ef7d;
+        --color-gold: #ffe600;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   3. MANUAL THEME OVERRIDES (via data-theme attribute on <html>)
+   -------------------------------------------------------------------------- */
+html[data-theme="light"] {
+    --theme-name: "light";
+    --bg-page: #f0f0e6;
+    --bg-card: #ffffff;
+    --bg-card-alt: #f8f8f2;
+    --bg-overlay: rgba(240, 240, 230, 0.88);
+    --bg-scanline: rgba(0, 0, 0, 0.04);
+    
+    --text-primary: #12121e;
+    --text-secondary: #3b3b4f;
+    --text-muted: #64647a;
+    --text-accent: #d90429;
+    
+    --border-color: #12121e;
+    --border-highlight: #ffffff;
+    --shadow-color: #7b7b8f;
+    --shadow-accent: #d90429;
+
+    --color-primary: #d90429;
+    --color-primary-hover: #ef233c;
+    --color-secondary: #0077b6;
+    --color-secondary-hover: #0096c7;
+    --color-green: #2a9d8f;
+    --color-gold: #f4a261;
+}
+
+html[data-theme="dark"] {
+    --theme-name: "dark";
+    --bg-page: #0a0a14;
+    --bg-card: #131224;
+    --bg-card-alt: #1b1a32;
+    --bg-overlay: rgba(10, 10, 20, 0.88);
+    --bg-scanline: rgba(0, 0, 0, 0.35);
+
+    --text-primary: #38ef7d;
+    --text-secondary: #00f2fe;
+    --text-muted: #7987a5;
+    --text-accent: #ff007f;
+
+    --border-color: #38ef7d;
+    --border-highlight: #ff007f;
+    --shadow-color: #00f2fe;
+    --shadow-accent: #ff007f;
+
+    --color-primary: #ff007f;
+    --color-primary-hover: #ff3399;
+    --color-secondary: #00f2fe;
+    --color-secondary-hover: #4facfe;
+    --color-green: #38ef7d;
+    --color-gold: #ffe600;
+}
+
+/* --------------------------------------------------------------------------
+   4. BASE RESETS & RETRO TYPOGRAPHY
+   -------------------------------------------------------------------------- */
+*, *::before, *::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    image-rendering: pixelated;
+}
+
+html {
+    scroll-behavior: smooth;
+    font-size: 16px;
+}
+
+body {
+    background-color: var(--bg-page);
+    color: var(--text-primary);
+    font-family: var(--font-pixel-body);
+    font-size: 1.25rem;
+    line-height: 1.5;
+    letter-spacing: 0.5px;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    min-height: 100vh;
+}
+
+/* Pixel Selection Highlighting */
+::selection {
+    background-color: var(--color-primary);
+    color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   5. PIXEL ART REUSABLE COMPONENT STYLES
+   -------------------------------------------------------------------------- */
+
+/* Stepped Pixel Box Border */
+.pixel-box {
+    background-color: var(--bg-card);
+    border: 4px solid var(--border-color);
+    box-shadow: 
+        4px 4px 0 0 var(--border-color),
+        -4px -4px 0 0 var(--border-color),
+        4px -4px 0 0 var(--border-color),
+        -4px 4px 0 0 var(--border-color);
+    position: relative;
+}
+
+/* Pixel Box with Depth Shadow */
+.pixel-box-shadow {
+    box-shadow: 
+        6px 6px 0 0 var(--shadow-color),
+        8px 8px 0 0 var(--border-color);
+}
+
+/* Pixel Buttons */
+.pixel-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: var(--font-pixel-heading);
+    font-size: 0.8rem;
+    padding: 12px 20px;
+    text-decoration: none;
+    text-transform: uppercase;
+    cursor: pointer;
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    border: 4px solid var(--border-color);
+    box-shadow: 4px 4px 0 0 var(--border-color);
+    transition: all 0.1s steps(2);
+    user-select: none;
+}
+
+.pixel-btn:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 6px 6px 0 0 var(--shadow-accent);
+    color: var(--text-accent);
+}
+
+.pixel-btn:active {
+    transform: translate(3px, 3px);
+    box-shadow: 1px 1px 0 0 var(--border-color);
+}
+
+.pixel-btn.btn-primary {
+    background-color: var(--color-primary);
+    color: #ffffff;
+    border-color: var(--border-color);
+}
+
+.pixel-btn.btn-primary:hover {
+    background-color: var(--color-primary-hover);
+    color: #ffffff;
+    box-shadow: 6px 6px 0 0 var(--border-color);
+}
+
+.pixel-btn.btn-secondary {
+    background-color: var(--color-secondary);
+    color: #ffffff;
+    border-color: var(--border-color);
+}
+
+.pixel-btn.btn-secondary:hover {
+    background-color: var(--color-secondary-hover);
+    color: #ffffff;
+    box-shadow: 6px 6px 0 0 var(--border-color);
+}
+
+/* Pixel Badge */
+.pixel-badge {
+    display: inline-block;
+    font-family: var(--font-pixel-heading);
+    font-size: 0.65rem;
+    padding: 4px 8px;
+    background: var(--bg-card-alt);
+    border: 2px solid var(--border-color);
+    color: var(--text-secondary);
+    text-transform: uppercase;
+}
+
+/* Blinking Cursor */
+.blink-cursor {
+    display: inline-block;
+    width: 10px;
+    height: 1.2em;
+    background-color: var(--text-accent);
+    vertical-align: middle;
+    margin-left: 4px;
+    animation: pixel-blink 0.8s steps(2) infinite;
+}
+
+@keyframes pixel-blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+}
+
+/* --------------------------------------------------------------------------
+   6. HEADER & PIXEL NAVIGATION
+   -------------------------------------------------------------------------- */
+header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background-color: var(--bg-card);
+    border-bottom: 4px solid var(--border-color);
+    padding: 12px 24px;
+}
+
+nav {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+    flex-wrap: wrap;
+}
+
+.logo a {
+    font-family: var(--font-pixel-heading);
+    font-size: 1rem;
+    color: var(--text-primary);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.logo a:hover {
+    color: var(--text-accent);
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 20px;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.nav-links a {
+    font-family: var(--font-pixel-heading);
+    font-size: 0.75rem;
+    text-decoration: none;
+    color: var(--text-secondary);
+    padding: 6px 10px;
+    border: 2px solid transparent;
+    transition: all 0.15s steps(2);
+}
+
+.nav-links a:hover {
+    color: var(--text-accent);
+    border: 2px solid var(--border-color);
+    background-color: var(--bg-card-alt);
+    box-shadow: 2px 2px 0 0 var(--border-color);
+}
+
+/* --------------------------------------------------------------------------
+   7. NIGHT MODE TOGGLE BUTTON
+   -------------------------------------------------------------------------- */
+.theme-toggle-wrapper {
+    display: flex;
+    align-items: center;
+}
+
+#theme-toggle {
+    font-family: var(--font-pixel-heading);
+    font-size: 0.7rem;
+    background-color: var(--bg-card);
+    color: var(--text-primary);
+    border: 3px solid var(--border-color);
+    box-shadow: 3px 3px 0 0 var(--border-color);
+    padding: 8px 12px;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: all 0.1s steps(2);
+}
+
+#theme-toggle:hover {
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 0 var(--shadow-accent);
+    color: var(--text-accent);
+}
+
+#theme-toggle:active {
+    transform: translate(2px, 2px);
+    box-shadow: 1px 1px 0 0 var(--border-color);
+}
+
+/* --------------------------------------------------------------------------
+   8. HERO SECTION (PIXEL ART STYLE + BACKGROUND IMAGE)
+   -------------------------------------------------------------------------- */
+.hero-section {
+    position: relative;
+    min-height: calc(100vh - 80px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px 20px;
+    overflow: hidden;
+
+    /* Background image provided by the user with blended overlay */
+    background-image: 
+        linear-gradient(var(--bg-overlay), var(--bg-overlay)),
+        url('hero-bg.jpg');
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    border-bottom: 6px solid var(--border-color);
+}
+
+/* Retro CRT Scanlines & Pixel Grid Backdrop Overlay */
+.hero-section::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        repeating-linear-gradient(
+            0deg,
+            var(--bg-scanline),
+            var(--bg-scanline) 2px,
+            transparent 2px,
+            transparent 4px
+        ),
+        radial-gradient(circle, transparent 60%, rgba(0, 0, 0, 0.4) 100%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.hero-container {
+    position: relative;
+    z-index: 2;
+    max-width: 1160px;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1.2fr 0.8fr;
+    gap: 40px;
+    align-items: center;
+}
+
+/* Left Hero Column: Narrative & Status */
+.hero-dialogue-box {
+    padding: 36px 32px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    background-color: var(--bg-card);
+}
+
+.hero-dialogue-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px dashed var(--border-color);
+    padding-bottom: 12px;
+    gap: 12px;
+    flex-wrap: wrap;
+}
+
+.hero-badge-group {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.hero-title {
+    font-family: var(--font-pixel-heading);
+    font-size: 1.75rem;
+    line-height: 1.4;
+    color: var(--text-primary);
+    text-transform: uppercase;
+}
+
+.hero-title .highlight {
+    color: var(--color-primary);
+    text-shadow: 2px 2px 0 var(--border-color);
+}
+
+.hero-tagline {
+    font-family: var(--font-pixel-body);
+    font-size: 1.5rem;
+    line-height: 1.4;
+    color: var(--text-secondary);
+}
+
+/* Retro RPG Status Bar */
+.hero-stats-panel {
+    background-color: var(--bg-card-alt);
+    border: 3px solid var(--border-color);
+    padding: 16px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 12px;
+    font-family: var(--font-pixel-heading);
+    font-size: 0.7rem;
+}
+
+.stat-item {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.stat-label {
+    color: var(--text-muted);
+    font-size: 0.6rem;
+}
+
+.stat-value {
+    color: var(--text-primary);
+}
+
+.stat-value.gold {
+    color: var(--color-gold);
+}
+
+.stat-value.green {
+    color: var(--color-green);
+}
+
+/* Health / Experience Meter Bar */
+.pixel-meter {
+    width: 100%;
+    height: 12px;
+    border: 2px solid var(--border-color);
+    background: #222;
+    margin-top: 4px;
+    position: relative;
+    overflow: hidden;
+}
+
+.pixel-meter-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #38ef7d, #00f2fe);
+    width: 95%;
+}
+
+/* Call to Action Button Group */
+.hero-cta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 16px;
+    margin-top: 10px;
+}
+
+/* Right Hero Column: Character Card / Avatar Frame */
+.hero-avatar-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 24px;
+    text-align: center;
+}
+
+.avatar-frame {
+    width: 240px;
+    height: 270px;
+    position: relative;
+    margin-bottom: 20px;
+    border: 6px solid var(--border-color);
+    box-shadow: 
+        6px 6px 0 0 var(--border-color),
+        -6px -6px 0 0 var(--shadow-color);
+    background-color: #000;
+    overflow: hidden;
+}
+
+.avatar-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: contrast(1.08) brightness(1.02);
+}
+
+.avatar-frame-badge {
+    position: absolute;
+    bottom: 8px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: var(--color-primary);
+    color: #fff;
+    font-family: var(--font-pixel-heading);
+    font-size: 0.6rem;
+    padding: 4px 8px;
+    border: 2px solid var(--border-color);
+    white-space: nowrap;
+}
+
+.avatar-title {
+    font-family: var(--font-pixel-heading);
+    font-size: 1rem;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+.avatar-subtitle {
+    font-size: 1.15rem;
+    color: var(--text-muted);
+}
+
+/* --------------------------------------------------------------------------
+   9. PLACEHOLDER SECTIONS STYLING (About, Skills, Timeline, etc.)
+   -------------------------------------------------------------------------- */
+main section:not(.hero-section) {
+    max-width: 1200px;
+    margin: 60px auto;
+    padding: 40px 24px;
+    background-color: var(--bg-card);
+    border: 4px solid var(--border-color);
+    box-shadow: 6px 6px 0 0 var(--border-color);
+}
+
+main section:not(.hero-section) h2 {
+    font-family: var(--font-pixel-heading);
+    font-size: 1.4rem;
+    color: var(--text-accent);
+    margin-bottom: 24px;
+    border-bottom: 3px solid var(--border-color);
+    padding-bottom: 8px;
+}
+
+.skills-grid, .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 24px;
+    margin-top: 20px;
+}
+
+.skills-category, .project-card, .timeline-item {
+    background-color: var(--bg-card-alt);
+    border: 3px solid var(--border-color);
+    padding: 20px;
+    box-shadow: 4px 4px 0 0 var(--border-color);
+}
+
+.skills-category h3, .project-card h3, .timeline-item h3 {
+    font-family: var(--font-pixel-heading);
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    margin-bottom: 12px;
+}
+
+.tech-stack {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    list-style: none;
+    margin: 16px 0;
+}
+
+.tech-stack li {
+    font-family: var(--font-pixel-heading);
+    font-size: 0.6rem;
+    padding: 3px 6px;
+    background: var(--bg-card);
+    border: 2px solid var(--border-color);
+}
+
+.project-links {
+    display: flex;
+    gap: 12px;
+}
+
+.project-links a {
+    font-family: var(--font-pixel-heading);
+    font-size: 0.7rem;
+    color: var(--color-secondary);
+    text-decoration: underline;
+}
+
+.project-links a:hover {
+    color: var(--text-accent);
+}
+
+.timeline-list {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.timeline-item header time {
+    font-family: var(--font-pixel-heading);
+    font-size: 0.7rem;
+    color: var(--color-gold);
+    display: block;
+    margin-bottom: 8px;
+}
+
+/* Contact Form Styling */
+.contact-form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 600px;
+}
+
+.contact-form div {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.contact-form label {
+    font-family: var(--font-pixel-heading);
+    font-size: 0.75rem;
+}
+
+.contact-form input,
+.contact-form textarea {
+    font-family: var(--font-pixel-body);
+    font-size: 1.25rem;
+    padding: 10px 14px;
+    border: 3px solid var(--border-color);
+    background-color: var(--bg-card-alt);
+    color: var(--text-primary);
+    outline: none;
+}
+
+.contact-form input:focus,
+.contact-form textarea:focus {
+    border-color: var(--color-primary);
+    box-shadow: 3px 3px 0 0 var(--border-color);
+}
+
+/* --------------------------------------------------------------------------
+   10. FOOTER STYLING
+   -------------------------------------------------------------------------- */
+footer {
+    border-top: 4px solid var(--border-color);
+    background-color: var(--bg-card);
+    padding: 32px 20px;
+    text-align: center;
+    margin-top: 60px;
+}
+
+.footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+}
+
+.social-links {
+    display: flex;
+    list-style: none;
+    gap: 16px;
+}
+
+.social-links a {
+    font-family: var(--font-pixel-heading);
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    text-decoration: none;
+    padding: 6px 12px;
+    border: 2px solid var(--border-color);
+    background: var(--bg-card-alt);
+    box-shadow: 2px 2px 0 0 var(--border-color);
+}
+
+.social-links a:hover {
+    color: var(--text-accent);
+    transform: translate(-1px, -1px);
+    box-shadow: 4px 4px 0 0 var(--shadow-accent);
+}
+
+/* --------------------------------------------------------------------------
+   11. RESPONSIVE DESIGN (Mobile & Tablets)
+   -------------------------------------------------------------------------- */
+@media (max-width: 900px) {
+    .hero-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+
+    .hero-dialogue-header {
+        justify-content: center;
+    }
+
+    .hero-cta {
+        justify-content: center;
+    }
+
+    .avatar-frame {
+        margin: 0 auto 20px;
+    }
+
+    .hero-title {
+        font-size: 1.4rem;
+    }
+
+    .hero-tagline {
+        font-size: 1.25rem;
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        padding: 10px 16px;
+    }
+
+    nav {
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .nav-links {
+        gap: 10px;
+    }
+
+    .hero-title {
+        font-size: 1.15rem;
+    }
+
+    .hero-dialogue-box {
+        padding: 20px 16px;
+    }
+
+    .avatar-frame {
+        width: 180px;
+        height: 210px;
+    }
+}
